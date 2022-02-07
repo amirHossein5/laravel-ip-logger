@@ -34,7 +34,7 @@ Methods for work with details:
 
 | method                          | description                                          |
 |---------------------------------|------------------------------------------------------|
-| detailsBe()                     | Writing details manually.                            |
+| detailsBe()                     | [Writing details manually](https://github.com/amirHossein5/laravel-ip-logger/tree/main#manually-geting-details).|
 | prepare()                       | Editting predefined details.                         |
 
 *for Example:*
@@ -66,7 +66,7 @@ For saving there are two methods, ```create```, ```updateOrCreate```, and work l
 
 
 
-## Manually geting details
+## Manually getting details
 
 By default has been wroten two apis to getting details of ip, [ip_api](https://ip-api.com/) ,and [vpn_api](https://vpnapi.io/). It's settable in config file.
 
