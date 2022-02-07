@@ -34,7 +34,7 @@ Methods for work with details:
 
 | method                          | description                                          |
 |---------------------------------|------------------------------------------------------|
-| detailsBe()                     | [Writing details manually](https://github.com/amirHossein5/laravel-ip-logger/tree/main#manually-geting-details).|
+| detailsBe()                     | [Writing details manually](https://github.com/amirHossein5/laravel-ip-logger/tree/main#manually-getting-details).|
 | prepare()                       | Editting predefined details.                         |
 
 *for Example:*
@@ -90,7 +90,11 @@ IpLogger::getLastException();
 Or:
 
 ```php
-
+/**
+ * The event listener mappings for the application.
+ *
+ * @var array
+ */
 protected $listen = [
   AmirHossein5\LaravelIpLogger\Events\Failed::class => [
     IpLoggerFailed::class,
