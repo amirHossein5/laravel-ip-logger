@@ -34,7 +34,7 @@ Methods for work with details:
 
 | method                          | description                                          |
 |---------------------------------|------------------------------------------------------|
-| detailsBe()                     | [Writing details manually](https://github.com/amirHossein5/laravel-ip-logger/tree/main#manually-getting-details).|
+| detailsBe()                     | [Writing details manually](#manually-getting-details).|
 | prepare()                       | Editting predefined details.                         |
 
 *for Example:*
