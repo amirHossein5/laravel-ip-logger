@@ -5,6 +5,7 @@ Mixes getting details of ip and saving it.
 
 - Laravel 8
 - PHP 8 
+- guzzlehttp/guzzle: ^6.3.1|^7.0.1
 
 
 ## Installation
