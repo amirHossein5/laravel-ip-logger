@@ -1,0 +1,35 @@
+{
+    "name": "amir-hossein5/laravel-ip-logger",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^8.0",
+        "guzzlehttp/guzzle": "^6.3.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "AmirHossein5\\LaravelIpLogger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AmirHossein5\\LaravelIpLogger\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AmirHossein5\\LaravelIpLogger\\IpLoggerServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "amirHossein5",
+            "email": "adada5116@gmail.com"
+        }
+    ]
+}
