@@ -103,22 +103,18 @@ class Test extends TestCase
 
         $record = IpLogger::model(Ip::class)
             ->updateOrCreate(
-                function ($details) {
-                    return [
-                        'ip'               => $details['query']
-                    ];
-                },
-                function ($details) {
-                    return [
-                        'security'         =>  [ $details['proxy'], $details['mobile'] ],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
-                    ];
-                }
+                fn ($details) => [
+                    'ip'               => $details['query']
+                ],
+                fn ($details) => [
+                    'security'         =>  [ $details['proxy'], $details['mobile'] ],
+                    'continent'        =>  $details['continent'],
+                    'country'          =>  $details['country'],
+                    'timezone'         =>  $details['timezone'],
+                    'internetProvider' =>  $details['isp'],
+                    'visited_at'       =>  now(),
+                    'seen'             =>  false
+                ],
             );
 
         $this->assertDatabaseCount('ip_details', 1);
