@@ -12,14 +12,14 @@ class IpLoggerServiceProvider extends ServiceProvider
             return new IpLogger();
         });
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/ipLogger.php', 'ipLogger');
+        $this->mergeConfigFrom(__DIR__.'/../config/ipLogger.php', 'ipLogger');
     }
 
     public function boot()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/ipLogger.php' => config_path('ipLogger.php'),
+                __DIR__.'/../config/ipLogger.php' => config_path('ipLogger.php'),
             ], 'ipLogger');
         }
     }

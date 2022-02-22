@@ -5,7 +5,7 @@ namespace AmirHossein5\LaravelIpLogger;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 
-trait Eloquent 
+trait Eloquent
 {
     private ?string $model = null;
 
@@ -17,19 +17,19 @@ trait Eloquent
     }
 
     public function UpdateOrCreate(Closure $attributes, Closure $values): bool|Model
-    {   
+    {
         $model = $this->model;
         $details = $this->getDetails();
 
         if ($this->exception) {
             return false;
         }
-     
+
         $attributes = $attributes($details);
         $values = $values($details);
 
         $this->resetProps();
-        
+
         return $model::UpdateOrCreate($attributes, $values);
     }
 
@@ -37,11 +37,11 @@ trait Eloquent
     {
         $model = $this->model;
         $details = $this->getDetails();
-        
+
         if ($this->exception) {
             return false;
         }
-        
+
         $values = $values($details);
 
         $this->resetProps();
