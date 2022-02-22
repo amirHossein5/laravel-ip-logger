@@ -2,15 +2,15 @@
 
 namespace AmirHossein5\LaravelIpLogger\Events;
 
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-class Failed 
+class Failed
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     public function __construct(public $exception)
     {
-        
     }
 }

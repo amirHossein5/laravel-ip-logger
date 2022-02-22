@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool|Illuminate\Database\Eloquent\Model UpdateOrCreate(\Closure $attributes, \Closure $values)
  * @method static bool|Illuminate\Database\Eloquent\Model create(\Closure $values)
  **/
-
 class IpLogger extends Facade
 {
     protected static function getFacadeAccessor()

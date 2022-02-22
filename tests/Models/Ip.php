@@ -15,7 +15,6 @@ class Ip extends Model
     const CREATED_AT = 'visited_at';
     const UPDATED_AT = null;
 
-
     protected $fillable = [
         'ip',
         'continent',
@@ -24,10 +23,10 @@ class Ip extends Model
         'timezone',
         'internetProvider',
         'visited_at',
-        'seen'
+        'seen',
     ];
 
     protected $casts = [
-        'security' => 'array'
+        'security' => 'array',
     ];
 }

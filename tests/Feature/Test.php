@@ -98,22 +98,22 @@ class Test extends TestCase
     public function test_update_or_create_method()
     {
         $this->assertDatabaseCount('ip_details', 0);
-        
+
         config(['ipLogger.get_details_from' => 'ip_api']);
 
         $record = IpLogger::model(Ip::class)
             ->updateOrCreate(
                 fn ($details) => [
-                    'ip'               => $details['query']
+                    'ip'               => $details['query'],
                 ],
                 fn ($details) => [
-                    'security'         =>  [ $details['proxy'], $details['mobile'] ],
-                    'continent'        =>  $details['continent'],
-                    'country'          =>  $details['country'],
-                    'timezone'         =>  $details['timezone'],
-                    'internetProvider' =>  $details['isp'],
-                    'visited_at'       =>  now(),
-                    'seen'             =>  false
+                    'security'         => [$details['proxy'], $details['mobile']],
+                    'continent'        => $details['continent'],
+                    'country'          => $details['country'],
+                    'timezone'         => $details['timezone'],
+                    'internetProvider' => $details['isp'],
+                    'visited_at'       => now(),
+                    'seen'             => false,
                 ],
             );
 
@@ -127,18 +127,18 @@ class Test extends TestCase
             ->updateOrCreate(
                 function ($details) {
                     return [
-                        'ip'               => $details['query']
+                        'ip'               => $details['query'],
                     ];
                 },
                 function ($details) {
                     return [
-                        'security'         =>  [$details['proxy'], $details['mobile']],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
+                        'security'         => [$details['proxy'], $details['mobile']],
+                        'continent'        => $details['continent'],
+                        'country'          => $details['country'],
+                        'timezone'         => $details['timezone'],
+                        'internetProvider' => $details['isp'],
+                        'visited_at'       => now(),
+                        'seen'             => false,
                     ];
                 }
             );
@@ -163,18 +163,18 @@ class Test extends TestCase
             ->updateOrCreate(
                 function ($details) {
                     return [
-                        'ip'               => $details['query']
+                        'ip'               => $details['query'],
                     ];
                 },
                 function ($details) {
                     return [
-                        'security'         =>  [$details['proxy'], $details['mobile']],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
+                        'security'         => [$details['proxy'], $details['mobile']],
+                        'continent'        => $details['continent'],
+                        'country'          => $details['country'],
+                        'timezone'         => $details['timezone'],
+                        'internetProvider' => $details['isp'],
+                        'visited_at'       => now(),
+                        'seen'             => false,
                     ];
                 }
             );
@@ -187,18 +187,18 @@ class Test extends TestCase
             ->updateOrCreate(
                 function ($details) {
                     return [
-                        'ip'               => $details['query']
+                        'ip'               => $details['query'],
                     ];
                 },
                 function ($details) {
                     return [
-                        'security'         =>  [$details['proxy'], $details['mobile']],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
+                        'security'         => [$details['proxy'], $details['mobile']],
+                        'continent'        => $details['continent'],
+                        'country'          => $details['country'],
+                        'timezone'         => $details['timezone'],
+                        'internetProvider' => $details['isp'],
+                        'visited_at'       => now(),
+                        'seen'             => false,
                     ];
                 }
             );
@@ -219,13 +219,13 @@ class Test extends TestCase
                 function ($details) {
                     return [
                         'ip'               => $details['query'],
-                        'security'         =>  [$details['proxy'], $details['mobile']],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
+                        'security'         => [$details['proxy'], $details['mobile']],
+                        'continent'        => $details['continent'],
+                        'country'          => $details['country'],
+                        'timezone'         => $details['timezone'],
+                        'internetProvider' => $details['isp'],
+                        'visited_at'       => now(),
+                        'seen'             => false,
                     ];
                 }
             );
@@ -241,13 +241,13 @@ class Test extends TestCase
                 function ($details) {
                     return [
                         'ip'               => $details['query'],
-                        'security'         =>  [$details['proxy'], $details['mobile']],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
+                        'security'         => [$details['proxy'], $details['mobile']],
+                        'continent'        => $details['continent'],
+                        'country'          => $details['country'],
+                        'timezone'         => $details['timezone'],
+                        'internetProvider' => $details['isp'],
+                        'visited_at'       => now(),
+                        'seen'             => false,
                     ];
                 }
             );
@@ -269,13 +269,13 @@ class Test extends TestCase
                 function ($details) {
                     return [
                         'ip'               => $details['query'],
-                        'security'         =>  [$details['proxy'], $details['mobile']],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
+                        'security'         => [$details['proxy'], $details['mobile']],
+                        'continent'        => $details['continent'],
+                        'country'          => $details['country'],
+                        'timezone'         => $details['timezone'],
+                        'internetProvider' => $details['isp'],
+                        'visited_at'       => now(),
+                        'seen'             => false,
                     ];
                 }
             );
@@ -289,13 +289,13 @@ class Test extends TestCase
                 function ($details) {
                     return [
                         'ip'               => $details['query'],
-                        'security'         =>  [$details['proxy'], $details['mobile']],
-                        'continent'        =>  $details['continent'],
-                        'country'          =>  $details['country'],
-                        'timezone'         =>  $details['timezone'],
-                        'internetProvider' =>  $details['isp'],
-                        'visited_at'       =>  now(),
-                        'seen'             =>  false
+                        'security'         => [$details['proxy'], $details['mobile']],
+                        'continent'        => $details['continent'],
+                        'country'          => $details['country'],
+                        'timezone'         => $details['timezone'],
+                        'internetProvider' => $details['isp'],
+                        'visited_at'       => now(),
+                        'seen'             => false,
                     ];
                 }
             );

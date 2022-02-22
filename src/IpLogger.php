@@ -7,9 +7,10 @@ use AmirHossein5\LaravelIpLogger\Exceptions\ConnectionFailedException;
 use Closure;
 use Illuminate\Support\Facades\Http;
 
-class IpLogger 
+class IpLogger
 {
-    use GetDetailsFrom, Eloquent;
+    use GetDetailsFrom;
+    use Eloquent;
 
     private null|array|object $details = null;
     private null|string|\Exception $exception = null;
@@ -26,13 +27,13 @@ class IpLogger
         if ($getDetails = $this->getDetails()) {
             $this->details = $details($getDetails);
         }
-        
+
         return $this;
     }
 
     public function getDetails(): bool|array
     {
-        if (! $this->details) {
+        if (!$this->details) {
             $this->details = $this->fetchDetails();
         }
 
@@ -42,7 +43,7 @@ class IpLogger
 
         $details = $this->details;
         $this->resetProps();
-        
+
         return $details;
     }
 
@@ -56,11 +57,13 @@ class IpLogger
         try {
             $ip = $this->getIp();
             $from = config('ipLogger.get_details_from');
+
             return $this->$from($ip);
         } catch (\Exception $e) {
             $this->exception = $e;
+
             return event(new Failed($e));
-        } 
+        }
     }
 
     private function getIp(): null|array|string
@@ -81,7 +84,7 @@ class IpLogger
             $ip = Http::get('https://api.ipify.org?format=json')->object()?->ip;  //for local
         }
 
-        if (! $ip) {
+        if (!$ip) {
             throw new ConnectionFailedException("Can't get ip.");
         }
 
