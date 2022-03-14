@@ -3,7 +3,7 @@ Mixes getting details of ip and saving it.
 
 ## Prerequisites
 
-- Laravel 8
+- Laravel ```^8.0|^9.0```
 - PHP 8 
 - guzzlehttp/guzzle: ```^6.3.1|^7.0.1```
 
