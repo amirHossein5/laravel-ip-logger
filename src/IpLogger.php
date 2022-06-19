@@ -15,30 +15,30 @@ class IpLogger
 
     /**
      * Details of the ip.
-     * 
+     *
      * @var null|object|array
      */
     private null|array|object $details = null;
 
     /**
      * Exception that happend on the current process of getting ip.
-     * 
+     *
      * @var null|string|\Exception
      */
     private null|string|\Exception $exception = null;
 
     /**
      * Last exception that happend.
-     * 
+     *
      * @var null|string|\Exception
      */
     private null|string|\Exception $lastException = null;
 
     /**
      * Sets the details of the ip.
-     * 
+     *
      * @param array|\Closure $details
-     * 
+     *
      * @return self
      */
     public function detailsBe(array|Closure $details): self
@@ -60,9 +60,9 @@ class IpLogger
 
     /**
      * Developer can edit the fetched details.
-     * 
+     *
      * @param \Closure $details
-     * 
+     *
      * @return self
      */
     public function prepare(Closure $details): self
@@ -82,7 +82,7 @@ class IpLogger
 
     /**
      * Gets the details of ip.
-     * 
+     *
      * @return bool|array
      */
     public function getDetails(): bool|array
@@ -93,6 +93,7 @@ class IpLogger
 
         if ($this->exception) {
             $this->resetProps();
+
             return false;
         }
 
@@ -104,7 +105,7 @@ class IpLogger
 
     /**
      * Returns the last exception that happened.
-     * 
+     *
      * @return null|string|\Exception
      */
     public function getLastException(): null|string|\Exception
@@ -115,7 +116,7 @@ class IpLogger
     /**
      * Gets the details of ip without reseting the properties.
      * For using in this class for preventing being properties reset.
-     * 
+     *
      * @return bool|array
      */
     public function details(): bool|array
@@ -135,7 +136,7 @@ class IpLogger
 
     /**
      * Fetches details of the ip.
-     * 
+     *
      * @return null|array
      */
     private function fetchDetails(): ?array
@@ -156,7 +157,7 @@ class IpLogger
 
     /**
      * Gets the ip.
-     * 
+     *
      * @return null|array|string
      */
     private function getIp(): null|array|string
@@ -186,9 +187,9 @@ class IpLogger
 
     /**
      * Sets exception for both exception and lastException properties.
-     * 
+     *
      * @param \Throwable $e
-     * 
+     *
      * @return void
      */
     public function exception(\Throwable $e): void
@@ -199,15 +200,16 @@ class IpLogger
 
     /**
      * Sends exception to event or something else.
-     * 
+     *
      * @param \Throwable $exception
-     * 
+     *
      * @return mixed
      */
     private function notifyException(\Throwable $exception): mixed
     {
         if ($this->catch !== null) {
             $catch = $this->catch;
+
             return $catch($exception);
         } else {
             return event(new Failed($exception));
@@ -216,7 +218,7 @@ class IpLogger
 
     /**
      * Resets the properties of the class.
-     * 
+     *
      * @return void
      */
     private function resetProps(): void

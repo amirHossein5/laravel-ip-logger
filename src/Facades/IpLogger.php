@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool|Illuminate\Database\Eloquent\Model UpdateOrCreate(\Closure $attributes, \Closure $values)
  * @method static bool|Illuminate\Database\Eloquent\Model create(\Closure $values)
  * @method static self catch(\Closure $closure)
- * 
+ *
  * @see \AmirHossein5\LaravelIpLogger\IpLogger
  **/
 class IpLogger extends Facade

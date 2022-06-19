@@ -2,7 +2,6 @@
 
 namespace AmirHossein5\LaravelIpLogger;
 
-use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,16 +9,16 @@ trait Eloquent
 {
     /**
      * The intended model that ip details is going to be save.
-     * 
+     *
      * @var null|string
      */
     private ?string $model = null;
 
     /**
      * Sets the model.
-     * 
+     *
      * @param string $model
-     * 
+     *
      * @return self
      */
     public function model(string $model): self
@@ -31,10 +30,10 @@ trait Eloquent
 
     /**
      * Create if attributes does not exist.
-     * 
+     *
      * @param \Closure $attributes
      * @param \Closure $values
-     *  
+     *
      * @return bool|\Illuminate\Database\Eloquent\Model
      */
     public function UpdateOrCreate(Closure $attributes, Closure $values): bool|Model
@@ -44,6 +43,7 @@ trait Eloquent
 
         if ($this->exception) {
             $this->resetProps();
+
             return false;
         }
 
@@ -57,9 +57,9 @@ trait Eloquent
 
     /**
      * Saves details in the database.
-     * 
+     *
      * @param \Closure $values
-     *  
+     *
      * @return bool|\Illuminate\Database\Eloquent\Model
      */
     public function create(Closure $values): bool|Model
@@ -69,6 +69,7 @@ trait Eloquent
 
         if ($this->exception) {
             $this->resetProps();
+
             return false;
         }
 

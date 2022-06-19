@@ -6,8 +6,6 @@ use AmirHossein5\LaravelIpLogger\Events\Failed;
 use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
 use AmirHossein5\LaravelIpLogger\Tests\Models\Ip;
 use AmirHossein5\LaravelIpLogger\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
 class ExceptionTest extends TestCase
@@ -19,7 +17,7 @@ class ExceptionTest extends TestCase
         config(['ipLogger.get_details_from' => 'vpn_api']);
         config(['ipLogger.vpn_api_key' => null]);
 
-        $this->assertFalse(IpLogger:: catch(fn ($exception) => $this->assertFalse(blank($exception)))->getDetails());
+        $this->assertFalse(IpLogger::catch(fn ($exception) => $this->assertFalse(blank($exception)))->getDetails());
         Event::assertNotDispatched(Failed::class);
         $this->assertIsObject(IpLogger::getLastException());
 
@@ -43,7 +41,7 @@ class ExceptionTest extends TestCase
         Event::fake();
         config(['ipLogger.get_details_from' => 'ip_api']);
 
-        $this->assertFalse(IpLogger:: catch(fn ($e) => $e)
+        $this->assertFalse(IpLogger::catch(fn ($e) => $e)
             ->detailsBe(function () {
                 throw \Exception('');
             })->getDetails());
@@ -53,7 +51,7 @@ class ExceptionTest extends TestCase
 
         Event::fake();
 
-        $this->assertFalse(IpLogger:: catch(fn ($exception) => $exception->getMessage())
+        $this->assertFalse(IpLogger::catch(fn ($exception) => $exception->getMessage())
             ->model(Ip::class)
             ->detailsBe(function () {
                 [];
@@ -72,7 +70,7 @@ class ExceptionTest extends TestCase
         config(['ipLogger.get_details_from' => 'vpn_api']);
         config(['ipLogger.vpn_api_key' => null]);
 
-        $this->assertFalse(IpLogger:: catch(fn ($exception) => $this->assertFalse(blank($exception)))->getDetails());
+        $this->assertFalse(IpLogger::catch(fn ($exception) => $this->assertFalse(blank($exception)))->getDetails());
         Event::assertNotDispatched(Failed::class);
         $this->assertIsObject(IpLogger::getLastException());
 

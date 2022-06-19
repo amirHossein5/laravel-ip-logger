@@ -7,7 +7,6 @@ use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
 use AmirHossein5\LaravelIpLogger\Tests\Models\Ip;
 use AmirHossein5\LaravelIpLogger\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
 class BaseTest extends TestCase
