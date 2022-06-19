@@ -89,7 +89,8 @@ IpLogger::detailsBe(function () {
 ## Exception Handling
 
 Except exceptions that when saving to database(e.g, create, updateOrCreate) happens, can be handle by using:
-<br/> Getting last Exception that happened:
+
+### Getting Last Exception That Happened
 
 ```php
 use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
@@ -97,7 +98,8 @@ use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
 IpLogger::getLastException();
 ```
 
-Catching exceptions inline:
+### Catching Exceptions Inline
+
 ```php
 use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
 
@@ -108,7 +110,7 @@ IpLogger::catch(function ($exception) {
 > You should use this as the first method.
 > When using this way no event will be dispatch.
 
-Listening for exceptions:
+### Listening For Exceptions
 
 ```php
 /**
