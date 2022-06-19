@@ -6,8 +6,6 @@ use AmirHossein5\LaravelIpLogger\Events\Failed;
 use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
 use AmirHossein5\LaravelIpLogger\Tests\Models\Ip;
 use AmirHossein5\LaravelIpLogger\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
 class ModifyDetailsTest extends TestCase
@@ -69,6 +67,7 @@ class ModifyDetailsTest extends TestCase
             })
             ->prepare(function ($details) {
                 throw \Exception('');
+
                 return $details + ['name' => 'ss'];
             })->getDetails();
 
@@ -78,6 +77,7 @@ class ModifyDetailsTest extends TestCase
         $details = IpLogger::model(Ip::class)
             ->detailsBe(function () {
                 throw \Exception('');
+
                 return ['test' => 's'];
             })
             ->prepare(function ($details) {
