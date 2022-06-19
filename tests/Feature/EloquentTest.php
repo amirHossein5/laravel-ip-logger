@@ -10,130 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 
-class Test extends TestCase
+class EloquentTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function test_ip_logger_get_details_with_multiple_apis()
-    {
-        Event::fake();
-        config(['ipLogger.get_details_from' => 'ip_api']);
-
-        $this->assertIsArray(IpLogger::getDetails());
-        Event::assertNotDispatched(Failed::class);
-
-        config(['ipLogger.get_details_from' => 'vpn_api']);
-        config(['ipLogger.vpn_api_key' => null]);
-
-        $this->assertFalse(IpLogger::getDetails());
-        Event::assertDispatched(Failed::class);
-    }
-
-    public function test_details_can_be_changed()
-    {
-        Event::fake();
-
-        $details = IpLogger::detailsBe(function () {
-            return ['test' => 's'];
-        })->getDetails();
-
-        Event::assertNotDispatched(Failed::class);
-        $this->assertTrue(isset($details['test']));
-        $this->assertTrue($details['test'] === 's');
-
-        $details = IpLogger::detailsBe(function () {
-            return ['test' => 's'];
-        })->prepare(function ($details) {
-            return $details + ['name' => 'ss'];
-        })->getDetails();
-
-        Event::assertNotDispatched(Failed::class);
-        $this->assertTrue(isset($details['test']));
-        $this->assertTrue(isset($details['name']));
-        $this->assertTrue($details['test'] === 's');
-        $this->assertTrue($details['name'] === 'ss');
-
-        config(['ipLogger.get_details_from' => 'ip_api']);
-
-        $details = IpLogger::model(Ip::class)
-            ->prepare(function ($details) {
-                return $details + ['name' => 'ss'];
-            })->getDetails();
-
-        Event::assertNotDispatched(Failed::class);
-        $this->assertTrue(isset($details['query']));
-        $this->assertTrue(isset($details['name']));
-        $this->assertTrue($details['name'] === 'ss');
-
-        config(['ipLogger.get_details_from' => 'vpn_api']);
-
-        $details = IpLogger::model(Ip::class)
-            ->prepare(function ($details) {
-                return $details + ['name' => 'ss'];
-            })->getDetails();
-
-        Event::assertDispatched(Failed::class);
-        $this->assertFalse($details);
-    }
-
-    public function test_detailsBe_and_prepare_throws_exception_to_event()
-    {
-        Event::fake();
-
-        $details = IpLogger::model(Ip::class)
-            ->detailsBe(function () {
-                return ['test' => 's'];
-            })
-            ->prepare(function ($details) {
-                throw \Exception('');
-                return $details + ['name' => 'ss'];
-            })->getDetails();
-
-        Event::assertDispatched(Failed::class);
-        $this->assertFalse($details);
-
-        $details = IpLogger::model(Ip::class)
-            ->detailsBe(function () { 
-                throw \Exception('');
-                return ['test' => 's'];
-            })
-            ->prepare(function ($details) {
-                return $details + ['name' => 'ss'];
-            })->getDetails();
-
-        Event::assertDispatched(Failed::class);
-        $this->assertFalse($details);
-
-        config(['ipLogger.get_details_from' => 'vpn_api']);
-
-        $details = IpLogger::model(Ip::class)
-            ->prepare(function ($details) {
-                return $details + ['name' => 'ss'];
-            })->getDetails();
-
-        Event::assertDispatched(Failed::class);
-        $this->assertFalse($details);
-    }
-
-    public function test_last_exception_can_be_gotten()
-    {
-        Event::fake();
-
-        config(['ipLogger.get_details_from' => 'vpn_api']);
-        config(['ipLogger.vpn_api_key' => null]);
-
-        $this->assertFalse(IpLogger::getDetails());
-        Event::assertDispatched(Failed::class);
-        $this->assertIsObject(IpLogger::getLastException());
-
-        IpLogger::model(Ip::class)->getDetails();
-
-        $this->assertFalse(IpLogger::getDetails());
-        $this->assertFalse(IpLogger::getDetails());
-        Event::assertDispatched(Failed::class);
-        $this->assertIsObject(IpLogger::getLastException());
-    }
-
     public function test_update_or_create_method()
     {
         $this->assertDatabaseCount('ip_details', 0);
@@ -292,6 +170,21 @@ class Test extends TestCase
             );
 
         $this->assertDatabaseCount('ip_details', 2);
+    }
+
+    public function test_eloquent_exceptions_wont_be_handle()
+    {
+        $this->expectException(\PDOException::class);
+        IpLogger::model(Ip::class)
+            ->create(function () {
+                return [];
+            });
+
+        $this->expectException(\PDOException::class);
+        IpLogger::model(Ip::class)
+            ->updateOrCreate(function () {
+                return [];
+            });
     }
 
     public function test_create_returns_false_when_has_exception_method()

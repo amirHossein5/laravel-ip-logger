@@ -41,6 +41,8 @@ Methods for work with details:
 *for Example:*
 
 ```php
+use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
+
 IpLogger::prepare(function ($details) {
   return $details + ['test' => 'test'];
 })->getDetails();
@@ -50,6 +52,8 @@ IpLogger::prepare(function ($details) {
 ## Saving to database
 
 ```php
+use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
+
 IpLogger::model(ModelName::class)
   ->updateOrCreate(
     fn ($details) => [
@@ -74,21 +78,37 @@ By default has been wroten two apis to getting details of ip, [ip_api](https://i
 Or if you want to use another api get details manually.
 
 ```php
+use \AmirHossein5\LaravelIpLogger\Facades\IpLogger;
+
 IpLogger::detailsBe(function () {
   return [ ... ];
-})
+})->updateOrCreate(...);
 ```
 
 
-## Exception handling
+## Exception Handling
 
-Getting last Exception that happened:
+Except exceptions that when saving to database(e.g, create, updateOrCreate) happens, can be handle by using:
+<br/> Getting last Exception that happened:
 
 ```php
+use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
+
 IpLogger::getLastException();
 ```
 
-Or:
+Catching exceptions inline:
+```php
+use AmirHossein5\LaravelIpLogger\Facades\IpLogger;
+
+IpLogger::catch(function ($exception) {
+  // send mail ...
+})...;
+```
+> You should use this as the first method.
+> When using this way no event will be dispatch.
+
+Listening for exceptions:
 
 ```php
 /**
@@ -103,8 +123,6 @@ protected $listen = [
 ];
 
 ```
-
-
 
 
 

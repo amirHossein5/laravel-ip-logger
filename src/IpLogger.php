@@ -11,6 +11,7 @@ class IpLogger
 {
     use GetDetailsFrom;
     use Eloquent;
+    use Catchable;
 
     /**
      * Details of the ip.
@@ -20,11 +21,18 @@ class IpLogger
     private null|array|object $details = null;
 
     /**
-     * Exception that happend when getting details of the ip.
+     * Exception that happend on the current process of getting ip.
      * 
      * @var null|string|\Exception
      */
     private null|string|\Exception $exception = null;
+
+    /**
+     * Last exception that happend.
+     * 
+     * @var null|string|\Exception
+     */
+    private null|string|\Exception $lastException = null;
 
     /**
      * Sets the details of the ip.
@@ -42,9 +50,9 @@ class IpLogger
                 $this->details = $details;
             }
         } catch (\Throwable $e) {
-            $this->exception = $e;
+            $this->exception($e);
 
-            event(new Failed($e));
+            $this->notifyException($e);
         }
 
         return $this;
@@ -60,13 +68,13 @@ class IpLogger
     public function prepare(Closure $details): self
     {
         try {
-            if ($getDetails = $this->getDetails()) {
+            if ($getDetails = $this->details()) {
                 $this->details = $details($getDetails);
             }
         } catch (\Throwable $e) {
-            $this->exception = $e;
+            $this->exception($e);
 
-            event(new Failed($e));
+            $this->notifyException($e);
         }
 
         return $this;
@@ -84,6 +92,7 @@ class IpLogger
         }
 
         if ($this->exception) {
+            $this->resetProps();
             return false;
         }
 
@@ -100,7 +109,28 @@ class IpLogger
      */
     public function getLastException(): null|string|\Exception
     {
-        return $this->exception;
+        return $this->lastException;
+    }
+
+    /**
+     * Gets the details of ip without reseting the properties.
+     * For using in this class for preventing being properties reset.
+     * 
+     * @return bool|array
+     */
+    public function details(): bool|array
+    {
+        if (!$this->details) {
+            $this->details = $this->fetchDetails();
+        }
+
+        if ($this->exception) {
+            return false;
+        }
+
+        $details = $this->details;
+
+        return $details;
     }
 
     /**
@@ -116,9 +146,11 @@ class IpLogger
 
             return $this->$from($ip);
         } catch (\Throwable $e) {
-            $this->exception = $e;
+            $this->exception($e);
 
-            return event(new Failed($e));
+            $this->notifyException($e);
+
+            return null;
         }
     }
 
@@ -153,6 +185,36 @@ class IpLogger
     }
 
     /**
+     * Sets exception for both exception and lastException properties.
+     * 
+     * @param \Throwable $e
+     * 
+     * @return void
+     */
+    public function exception(\Throwable $e): void
+    {
+        $this->exception = $e;
+        $this->lastException = $e;
+    }
+
+    /**
+     * Sends exception to event or something else.
+     * 
+     * @param \Throwable $exception
+     * 
+     * @return mixed
+     */
+    private function notifyException(\Throwable $exception): mixed
+    {
+        if ($this->catch !== null) {
+            $catch = $this->catch;
+            return $catch($exception);
+        } else {
+            return event(new Failed($exception));
+        }
+    }
+
+    /**
      * Resets the properties of the class.
      * 
      * @return void
@@ -160,7 +222,7 @@ class IpLogger
     private function resetProps(): void
     {
         $whiteList = [
-            'exception',
+            'lastException',
         ];
 
         foreach (get_class_vars(get_class($this)) as $var => $def_val) {
