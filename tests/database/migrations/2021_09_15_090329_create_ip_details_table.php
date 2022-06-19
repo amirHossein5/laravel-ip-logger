@@ -15,12 +15,12 @@ class CreateIpDetailsTable extends Migration
     {
         Schema::create('ip_details', function (Blueprint $table) {
             $table->string('ip');
-            $table->string('continent');
-            $table->text('security');
-            $table->string('country');
-            $table->string('timezone');
-            $table->string('internetProvider');
-            $table->timestamp('visited_at')->default(null);
+            $table->string('continent')->nullable();
+            $table->text('security')->nullable();
+            $table->string('country')->nullable();
+            $table->string('timezone')->nullable();
+            $table->string('internetProvider')->nullable();
+            $table->timestamp('visited_at')->nullable();
         });
     }
 

@@ -12,25 +12,71 @@ class IpLogger
     use GetDetailsFrom;
     use Eloquent;
 
+    /**
+     * Details of the ip.
+     * 
+     * @var null|object|array
+     */
     private null|array|object $details = null;
+
+    /**
+     * Exception that happend when getting details of the ip.
+     * 
+     * @var null|string|\Exception
+     */
     private null|string|\Exception $exception = null;
 
+    /**
+     * Sets the details of the ip.
+     * 
+     * @param array|\Closure $details
+     * 
+     * @return self
+     */
     public function detailsBe(array|Closure $details): self
     {
-        $this->details = $details();
+        try {
+            if ($details instanceof \Closure) {
+                $this->details = $details();
+            } else {
+                $this->details = $details;
+            }
+        } catch (\Throwable $e) {
+            $this->exception = $e;
 
-        return $this;
-    }
-
-    public function prepare(Closure $details): self
-    {
-        if ($getDetails = $this->getDetails()) {
-            $this->details = $details($getDetails);
+            event(new Failed($e));
         }
 
         return $this;
     }
 
+    /**
+     * Developer can edit the fetched details.
+     * 
+     * @param \Closure $details
+     * 
+     * @return self
+     */
+    public function prepare(Closure $details): self
+    {
+        try {
+            if ($getDetails = $this->getDetails()) {
+                $this->details = $details($getDetails);
+            }
+        } catch (\Throwable $e) {
+            $this->exception = $e;
+
+            event(new Failed($e));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Gets the details of ip.
+     * 
+     * @return bool|array
+     */
     public function getDetails(): bool|array
     {
         if (!$this->details) {
@@ -47,11 +93,21 @@ class IpLogger
         return $details;
     }
 
+    /**
+     * Returns the last exception that happened.
+     * 
+     * @return null|string|\Exception
+     */
     public function getLastException(): null|string|\Exception
     {
         return $this->exception;
     }
 
+    /**
+     * Fetches details of the ip.
+     * 
+     * @return null|array
+     */
     private function fetchDetails(): ?array
     {
         try {
@@ -59,13 +115,18 @@ class IpLogger
             $from = config('ipLogger.get_details_from');
 
             return $this->$from($ip);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->exception = $e;
 
             return event(new Failed($e));
         }
     }
 
+    /**
+     * Gets the ip.
+     * 
+     * @return null|array|string
+     */
     private function getIp(): null|array|string
     {
         $ip = null;
@@ -91,10 +152,19 @@ class IpLogger
         return $ip;
     }
 
+    /**
+     * Resets the properties of the class.
+     * 
+     * @return void
+     */
     private function resetProps(): void
     {
+        $whiteList = [
+            'exception',
+        ];
+
         foreach (get_class_vars(get_class($this)) as $var => $def_val) {
-            if ($var !== 'exception') {
+            if (!in_array($var, $whiteList)) {
                 $this->$var = $def_val;
             }
         }

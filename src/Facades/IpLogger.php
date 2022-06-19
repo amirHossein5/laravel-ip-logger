@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static self model(string $model)
  * @method static bool|Illuminate\Database\Eloquent\Model UpdateOrCreate(\Closure $attributes, \Closure $values)
  * @method static bool|Illuminate\Database\Eloquent\Model create(\Closure $values)
+ * 
+ * @see \AmirHossein5\LaravelIpLogger\IpLogger
  **/
 class IpLogger extends Facade
 {
