@@ -108,6 +108,7 @@ IpLogger::catch(function ($exception) {
 })...;
 ```
 > You should use this as the first method.
+
 > When using this way no event will be dispatch.
 
 ### Listening For Exceptions
